@@ -7,6 +7,8 @@ final class MovieQuizViewController: UIViewController {
     @IBOutlet weak private var textLabel: UILabel!
     @IBOutlet weak private var counterLabel: UILabel!
     
+    @IBOutlet weak var noButton: UIButton!
+    @IBOutlet weak var yesButton: UIButton!
     
     private var currentQuestionIndex = 0
     private var correctAnswers = 0
@@ -67,20 +69,32 @@ final class MovieQuizViewController: UIViewController {
     }
     
     @IBAction private func yesButtonTapped(_ sender: UIButton) {
-        currentQuestion.correctAnswer 
+        disableButtons()
+        currentQuestion.correctAnswer
         ? showAnswerResult(isCorrect: true)
         : showAnswerResult(isCorrect: false)
     }
     
     @IBAction private func noButtonTapped(_ sender: UIButton) {
+        disableButtons()
         currentQuestion.correctAnswer
         ? showAnswerResult(isCorrect: false)
         : showAnswerResult(isCorrect: true)
     }
     
+    private func disableButtons() {
+        yesButton.isEnabled = false
+        noButton.isEnabled = false
+    }
+    
+    private func enableButtons() {
+        yesButton.isEnabled = true
+        noButton.isEnabled = true
+    }
+    
     private func showAnswerResult(isCorrect: Bool) {
         imageView.layer.masksToBounds = true
-            imageView.layer.borderWidth = 8
+        imageView.layer.borderWidth = 8
             imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
         
         if isCorrect {
@@ -109,6 +123,8 @@ final class MovieQuizViewController: UIViewController {
         counterLabel.text = step.questionNumber
         
         imageView.layer.borderColor = UIColor.clear.cgColor
+        
+        enableButtons()
     }
     
     private func showNextQuestionOrResults() {
